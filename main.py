@@ -17,6 +17,7 @@ class Main():
 		self.all_sprites = pygame.sprite.Group()
 		self.players = pygame.sprite.Group()
 		self.numbers = pygame.sprite.Group()
+		self.scores = pygame.sprite.Group()
 		self.running = True
 		self.BackGround = Background('background.png', [0,0])
 
@@ -27,14 +28,20 @@ class Main():
 		collide = pygame.sprite.spritecollide(self.player, self.numbers, False, collided=None)
 		if collide:
 			if collide[0] == self.answer: #If collided with correct answer
-				print ("You win!")
+				self.wins += 1
 			else: #If collided with wrong answer
-				print ("You lose")
+				self.losses += 1
+
+			self.players.empty()
+			self.numbers.empty()
+			self.all_sprites.empty()
+			self.createSprites()
 
 		for sprite in self.all_sprites:
 			self.screen.blit(sprite.surf, (sprite.rect)) #Blits all sprites onto the screen
 			sprite.update(pressed_keys)
 			sprite.gravity() #Forces Srite down
+
 
 	def randomEquationGen(self):
 		''' Randomly generates an equation and a solution for the game 
@@ -49,16 +56,19 @@ class Main():
 			solution = num1 * num2
 
 		return [equation, solution]
+
 	def createSprites(self):
 		player = Player(2, self.width, self.height) #Create player at speed 2
 		self.player = player
-		#number = Number(0, self.height, self.width, 300, 200, False, 50)
-		numbers = []
 		self.loadSprite(player, "player") #load player into sprite group
-		#self.loadSprite(number)
+		
 
+		self.loadSprite(Number(0, self.height, self.width, 400, 50, False, 50, self.wins), "scores")
+		self.loadSprite(Number(0, self.height, self.width, 450, 50, False, 50, self.losses), "scores")
+		
+		numbers = []
 		equation = self.randomEquationGen()
-		#print (equation)
+		
 		xpos = 250
 		for val in equation[0].split(" "):
 			numbers.append(Number(0, self.height, self.width, xpos , 325, False, 50, val))
@@ -79,7 +89,11 @@ class Main():
 
 	def gameLoop(self):
 		''' Game loop, creates the player and regenerates equations once player has gotten answer '''
+		self.wins = 0
+		self.losses = 0
 		self.createSprites()
+
+
 		while self.running:
 			for event in pygame.event.get():
 				if event.type == KEYDOWN:
@@ -105,6 +119,8 @@ class Main():
 		    self.players.add(sprite)
 		elif typ == "number":
 		    self.numbers.add(sprite)
+		elif typ == "scores":
+			self.scores.add(sprite)
 		self.all_sprites.add(sprite) #Adds sprites into a group
 
 if __name__ == '__main__':
