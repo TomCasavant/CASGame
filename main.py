@@ -49,9 +49,7 @@ class Main():
 			solution = num1 * num2
 
 		return [equation, solution]
-
-	def gameLoop(self):
-		''' Game loop, creates the player and regenerates equations once player has gotten answer '''
+	def createSprites(self):
 		player = Player(2, self.width, self.height) #Create player at speed 2
 		self.player = player
 		#number = Number(0, self.height, self.width, 300, 200, False, 50)
@@ -78,6 +76,10 @@ class Main():
 
 		for num in numbers:
 			self.loadSprite(num, "number")
+
+	def gameLoop(self):
+		''' Game loop, creates the player and regenerates equations once player has gotten answer '''
+		self.createSprites()
 		while self.running:
 			for event in pygame.event.get():
 				if event.type == KEYDOWN:
