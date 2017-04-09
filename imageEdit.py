@@ -5,11 +5,11 @@ def concatenateImages(image1, image2):
 		Usage: concatenateImages("1", "2")'''
 	first = Image.open(image1 + ".png")
 	second = Image.open(image2 + ".png")
-	solution = Image.new("RGB", (250, 175), "white")
+	solution = Image.new("RGB", (300, 200), "white")
 
 	mask = Image.new("L", solution.size, color=255)
 	draw = ImageDraw.Draw(mask)
-	draw.rectangle((0,0,250,175), fill=0)
+	draw.rectangle((0,0,300,200), fill=0)
 	solution.putalpha(mask)
 
 
