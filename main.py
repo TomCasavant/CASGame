@@ -29,19 +29,34 @@ class Main():
 		if collide:
 			if collide[0] == self.answer: #If collided with correct answer
 				self.wins += 1
+				win = True
 			else: #If collided with wrong answer
 				self.losses += 1
+				win = False
 
-			self.players.empty()
-			self.numbers.empty()
-			self.all_sprites.empty()
-			self.createSprites()
+			self.endGame(win)
+
 
 		for sprite in self.all_sprites:
 			self.screen.blit(sprite.surf, (sprite.rect)) #Blits all sprites onto the screen
 			sprite.update(pressed_keys)
 			sprite.gravity() #Forces Srite down
 
+	def endGame(self, win):
+			self.players.empty()
+			self.numbers.empty()
+			self.all_sprites.empty()
+
+			self.screen.fill((0,0,0))
+			pygame.display.flip()
+			if win:
+				img = pygame.image.load("Check.png")
+			else:
+				img = pygame.image.load("X.png")
+			self.screen.blit(img, (self.width/2, self.height/2))
+			pygame.display.flip()
+			pygame.time.wait(500)
+			self.createSprites()
 
 	def randomEquationGen(self):
 		''' Randomly generates an equation and a solution for the game 
@@ -63,8 +78,8 @@ class Main():
 		self.loadSprite(player, "player") #load player into sprite group
 		
 
-		self.loadSprite(Number(0, self.height, self.width, 400, 50, False, 50, self.wins), "scores")
-		self.loadSprite(Number(0, self.height, self.width, 450, 50, False, 50, self.losses), "scores")
+		self.loadSprite(Number(0, self.height, self.width, 0, 50, False, 50, self.wins), "scores")
+		self.loadSprite(Number(0, self.height, self.width, 750, 50, False, 50, self.losses), "scores")
 		
 		numbers = []
 		equation = self.randomEquationGen()
