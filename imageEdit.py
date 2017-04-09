@@ -14,5 +14,4 @@ def concatenateImages(image1, image2):
 
 
 	solution.paste(first, (0,0), first)
-	solution.paste(second, (first.size[0], 0), second)
 	solution.save("solution.png")
