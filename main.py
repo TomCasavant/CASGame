@@ -49,13 +49,29 @@ class Main():
 
 			self.screen.fill((0,0,0))
 			pygame.display.flip()
-			if win:
-				img = pygame.image.load("Check.png")
+			time = 5000
+			x = 300
+			y = 100
+			if self.wins >= 5:
+				img = pygame.image.load("Win.png")
+				self.wins = 0
+				self.losses = 0
+			elif self.losses >= 5:
+				img = pygame.image.load("Lose.png")
+				self.wins = 0
+				self.losses = 0
 			else:
-				img = pygame.image.load("X.png")
-			self.screen.blit(img, (350, 100))
+				if win:
+					img = pygame.image.load("Check.png")
+				else:
+					img = pygame.image.load("X.png")
+				time = 500
+				x = 350
+				y = 100
+
+			self.screen.blit(img, (x, y))
 			pygame.display.flip()
-			pygame.time.wait(500)
+			pygame.time.wait(time)
 			self.createSprites()
 
 	def randomEquationGen(self):
@@ -94,10 +110,13 @@ class Main():
 		rand = random.choice([250, 425])
 		self.answer = Number(0, self.height, self.width, rand, 100, False, 50, str(equation[1]))
 		numbers.append(self.answer)
+		randans = str(random.randint(0, 81))
+		if randans == str(equation[1]):
+			randans = str(int(randans)+1)
 		if rand == 250:
-			numbers.append(Number(0, self.height, self.width, 425, 100, False, 50, str(random.randint(0, 81))))
+			numbers.append(Number(0, self.height, self.width, 425, 100, False, 50, randans))
 		else:
-			numbers.append(Number(0, self.height, self.width, 250, 100, False, 50, str(random.randint(0, 81))))
+			numbers.append(Number(0, self.height, self.width, 250, 100, False, 50, randans))
 
 		for num in numbers:
 			self.loadSprite(num, "number")
