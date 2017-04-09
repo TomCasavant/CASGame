@@ -53,7 +53,7 @@ class Main():
 				img = pygame.image.load("Check.png")
 			else:
 				img = pygame.image.load("X.png")
-			self.screen.blit(img, (self.width/2, self.height/2))
+			self.screen.blit(img, (350, 100))
 			pygame.display.flip()
 			pygame.time.wait(500)
 			self.createSprites()
@@ -78,8 +78,8 @@ class Main():
 		self.loadSprite(player, "player") #load player into sprite group
 		
 
-		self.loadSprite(Number(0, self.height, self.width, 0, 50, False, 50, self.wins), "scores")
-		self.loadSprite(Number(0, self.height, self.width, 750, 50, False, 50, self.losses), "scores")
+		self.loadSprite(Number(0, self.height, self.width, 0, 100, False, 50, self.wins), "scores")
+		self.loadSprite(Number(0, self.height, self.width, 750, 100, False, 50, self.losses), "scores")
 		
 		numbers = []
 		equation = self.randomEquationGen()
